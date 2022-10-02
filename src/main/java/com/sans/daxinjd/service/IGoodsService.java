@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
  *
  * @author Sans
  */
-@Service
 public interface IGoodsService extends IService<Goods> {
     Page<Goods> search(ReqSearch search);
 }
