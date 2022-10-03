@@ -8,12 +8,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * <p>
- * 
- * </p>
  *
  * @author Sans
- * @since 2022-09-27
  */
 public class Goods implements Serializable {
 
