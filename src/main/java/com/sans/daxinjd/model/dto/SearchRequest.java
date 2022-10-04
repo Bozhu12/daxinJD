@@ -1,6 +1,10 @@
-package com.sans.daxinjd.utils;
+package com.sans.daxinjd.model.dto;
 
-public class ReqSearch {
+/**
+ *
+ * @author Sans
+ */
+public class SearchRequest {
 
     private String query;
     private int cid;
@@ -9,7 +13,7 @@ public class ReqSearch {
 
     @Override
     public String toString() {
-        return "ReqSearch{" +
+        return "SearchRequest{" +
                 "query='" + query + '\'' +
                 ", cid='" + cid + '\'' +
                 ", pageNum='" + pageNum + '\'' +
@@ -21,7 +25,7 @@ public class ReqSearch {
         return query;
     }
 
-    public ReqSearch setQuery(String query) {
+    public SearchRequest setQuery(String query) {
         this.query = query;
         return this;
     }
@@ -30,7 +34,7 @@ public class ReqSearch {
         return cid;
     }
 
-    public ReqSearch setCid(int cid) {
+    public SearchRequest setCid(int cid) {
         this.cid = cid;
         return this;
     }
@@ -39,7 +43,7 @@ public class ReqSearch {
         return pageNum;
     }
 
-    public ReqSearch setPageNum(int pageNum) {
+    public SearchRequest setPageNum(int pageNum) {
         this.pageNum = pageNum;
         return this;
     }
@@ -48,7 +52,7 @@ public class ReqSearch {
         return pageSize;
     }
 
-    public ReqSearch setPageSize(int pageSize) {
+    public SearchRequest setPageSize(int pageSize) {
         this.pageSize = pageSize;
         return this;
     }

@@ -1,6 +1,6 @@
 package com.sans.daxinjd;
 
-import com.sans.daxinjd.entity.Goods;
+import com.sans.daxinjd.model.entity.Goods;
 import com.sans.daxinjd.mapper.GoodsMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

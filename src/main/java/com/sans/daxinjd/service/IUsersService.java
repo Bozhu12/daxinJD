@@ -1,7 +1,7 @@
 package com.sans.daxinjd.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sans.daxinjd.entity.Users;
+import com.sans.daxinjd.model.entity.Users;
 import org.springframework.stereotype.Service;
 
 /**

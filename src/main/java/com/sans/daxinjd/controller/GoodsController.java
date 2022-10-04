@@ -1,11 +1,9 @@
 package com.sans.daxinjd.controller;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sans.daxinjd.entity.Goods;
+import com.sans.daxinjd.model.dto.SearchRequest;
 import com.sans.daxinjd.service.IGoodsService;
-import com.sans.daxinjd.utils.ReqSearch;
-import com.sans.daxinjd.utils.Result;
+import com.sans.daxinjd.utils.BaseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,8 +25,8 @@ public class GoodsController {
     private IGoodsService iGoodsService;
 
     @PostMapping("/search")
-    public Result search(@RequestBody ReqSearch search) {
-        return Result.ok().putData("data", iGoodsService.search(search));
+    public BaseResult search(@RequestBody SearchRequest search) {
+        return BaseResult.ok().putData("data", iGoodsService.search(search));
     }
 
 }

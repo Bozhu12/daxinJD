@@ -1,4 +1,4 @@
-package com.sans.daxinjd.entity;
+package com.sans.daxinjd.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 

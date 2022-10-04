@@ -1,7 +1,7 @@
 package com.sans.daxinjd.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sans.daxinjd.entity.Order;
+import com.sans.daxinjd.model.entity.Order;
 
 /**
  * <p>
