@@ -1,17 +1,18 @@
 package com.sans.daxinjd.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sans.daxinjd.model.entity.Goods;
-import org.apache.ibatis.annotations.Mapper;
+import generator.domain.Goods;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author Sans
- */
-@Mapper
+* @author Sans
+* @description 针对表【goods】的数据库操作Mapper
+* @createDate 2022-10-08 11:53:23
+* @Entity generator.domain.Goods
+*/
 public interface GoodsMapper extends BaseMapper<Goods> {
 
 }
+
+
+
+

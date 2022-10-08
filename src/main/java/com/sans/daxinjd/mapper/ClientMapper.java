@@ -1,16 +1,18 @@
 package com.sans.daxinjd.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sans.daxinjd.model.entity.Client;
+import generator.domain.Client;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author Sans
- * 
- */
+* @author Sans
+* @description 针对表【client】的数据库操作Mapper
+* @createDate 2022-10-08 11:53:23
+* @Entity generator.domain.Client
+*/
 public interface ClientMapper extends BaseMapper<Client> {
 
 }
+
+
+
+

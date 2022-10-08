@@ -1,16 +1,18 @@
 package com.sans.daxinjd.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sans.daxinjd.model.entity.Orderinfo;
+import generator.domain.Orderinfo;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author Sans
- * 
- */
+* @author Sans
+* @description 针对表【orderinfo】的数据库操作Mapper
+* @createDate 2022-10-08 11:53:24
+* @Entity generator.domain.Orderinfo
+*/
 public interface OrderinfoMapper extends BaseMapper<Orderinfo> {
 
 }
+
+
+
+

@@ -1,16 +1,18 @@
 package com.sans.daxinjd.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sans.daxinjd.model.entity.Clazz;
+import generator.domain.Clazz;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author Sans
- * 
- */
+* @author Sans
+* @description 针对表【clazz】的数据库操作Mapper
+* @createDate 2022-10-08 11:53:23
+* @Entity generator.domain.Clazz
+*/
 public interface ClazzMapper extends BaseMapper<Clazz> {
 
 }
+
+
+
+

@@ -1,46 +1,31 @@
 package com.sans.daxinjd.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * <p>
  * 
- * </p>
- *
- * @author Sans
+ * @TableName clazz
  */
+@TableName(value ="clazz")
+@Data
 public class Clazz implements Serializable {
-
-
+    /**
+     * 
+     */
+    @TableId(value = "id")
     private Long id;
 
-    @TableField("class_name")
+    /**
+     * 
+     */
+    @TableField(value = "class_name")
     private String className;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    @Override
-    public String toString() {
-        return "Clazz{" +
-        "id=" + id +
-        ", className=" + className +
-        "}";
-    }
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }
