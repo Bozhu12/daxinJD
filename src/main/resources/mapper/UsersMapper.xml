@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sans.mapper.UsersMapper">
+
+    <resultMap id="BaseResultMap" type="com.sans.model.entity.Users">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+            <result property="userTrueName" column="user_true_name" jdbcType="VARCHAR"/>
+            <result property="userPhone" column="user_phone" jdbcType="VARCHAR"/>
+            <result property="userRoot" column="user_root" jdbcType="INTEGER"/>
+            <result property="userCreateTime" column="user_create_time" jdbcType="TIMESTAMP"/>
+            <result property="userUpdateTime" column="user_update_time" jdbcType="TIMESTAMP"/>
+            <result property="delete" column="delete" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_name,user_true_name,
+        user_phone,user_root,user_create_time,
+        user_update_time,delete
+    </sql>
+</mapper>

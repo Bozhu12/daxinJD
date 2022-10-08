@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sans.mapper.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.sans.model.entity.Order">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="orderClientId" column="order_client_id" jdbcType="BIGINT"/>
+            <result property="orderUserId" column="order_user_id" jdbcType="BIGINT"/>
+            <result property="orderFactPrice" column="order_fact_price" jdbcType="FLOAT"/>
+            <result property="orderStatus" column="order_status" jdbcType="INTEGER"/>
+            <result property="orderCreateTime" column="order_create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,order_client_id,order_user_id,
+        order_fact_price,order_status,order_create_time
+    </sql>
+</mapper>

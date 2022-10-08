@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sans.mapper.ClientMapper">
+
+    <resultMap id="BaseResultMap" type="com.sans.model.entity.Client">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="clientName" column="client_name" jdbcType="VARCHAR"/>
+            <result property="clientPhone1" column="client_phone1" jdbcType="VARCHAR"/>
+            <result property="clientPhone2" column="client_phone2" jdbcType="VARCHAR"/>
+            <result property="clientAddress" column="client_address" jdbcType="VARCHAR"/>
+            <result property="clientRemarks" column="client_remarks" jdbcType="VARCHAR"/>
+            <result property="clientCreateTime" column="client_create_time" jdbcType="TIMESTAMP"/>
+            <result property="clientUpdateTime" column="client_update_time" jdbcType="TIMESTAMP"/>
+            <result property="delete" column="delete" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,client_name,client_phone1,
+        client_phone2,client_address,client_remarks,
+        client_create_time,client_update_time,delete
+    </sql>
+</mapper>

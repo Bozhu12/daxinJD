@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sans.mapper.OrderinfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.sans.model.entity.Orderinfo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="orderinfoOrderId" column="orderinfo_order_id" jdbcType="BIGINT"/>
+            <result property="orderinfoGoodsId" column="orderinfo_goods_id" jdbcType="BIGINT"/>
+            <result property="orderinfoGoodsSku" column="orderinfo_goods_SKU" jdbcType="VARCHAR"/>
+            <result property="orderinfoCount" column="orderinfo_count" jdbcType="INTEGER"/>
+            <result property="orderinfoCreateTime" column="orderinfo_create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,orderinfo_order_id,orderinfo_goods_id,
+        orderinfo_goods_SKU,orderinfo_count,orderinfo_create_time
+    </sql>
+</mapper>
