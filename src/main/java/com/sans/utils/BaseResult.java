@@ -15,7 +15,7 @@ public class BaseResult {
     private Boolean success;
     private Integer code;
     private String message;
-    private Map<String, Object> data = new HashMap<>();
+    private Map<String, Object> response = new HashMap<>();
 
     private BaseResult() {}
 
@@ -74,17 +74,17 @@ public class BaseResult {
         return this;
     }
 
-    public Map<String, Object> getData() {
-        return data;
+    public Map<String, Object> getResponse() {
+        return response;
     }
 
     public BaseResult setData(Map<String, Object> data) {
-        this.data = data;
+        this.response = data;
         return this;
     }
 
     public BaseResult putData(String key, Object value) {
-        this.data.put(key, value);
+        this.response.put(key, value);
         return this;
     }
 

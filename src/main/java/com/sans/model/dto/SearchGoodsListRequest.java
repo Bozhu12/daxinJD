@@ -4,10 +4,10 @@ package com.sans.model.dto;
  *
  * @author Sans
  */
-public class SearchRequest {
+public class SearchGoodsListRequest {
 
     private String query;
-    private int cid;
+    private int cid = -1;
     private int pageNum = 1;
     private int pageSize = 20;
 
@@ -25,7 +25,7 @@ public class SearchRequest {
         return query;
     }
 
-    public SearchRequest setQuery(String query) {
+    public SearchGoodsListRequest setQuery(String query) {
         this.query = query;
         return this;
     }
@@ -34,7 +34,7 @@ public class SearchRequest {
         return cid;
     }
 
-    public SearchRequest setCid(int cid) {
+    public SearchGoodsListRequest setCid(int cid) {
         this.cid = cid;
         return this;
     }
@@ -43,7 +43,7 @@ public class SearchRequest {
         return pageNum;
     }
 
-    public SearchRequest setPageNum(int pageNum) {
+    public SearchGoodsListRequest setPageNum(int pageNum) {
         this.pageNum = pageNum;
         return this;
     }
@@ -52,7 +52,7 @@ public class SearchRequest {
         return pageSize;
     }
 
-    public SearchRequest setPageSize(int pageSize) {
+    public SearchGoodsListRequest setPageSize(int pageSize) {
         this.pageSize = pageSize;
         return this;
     }

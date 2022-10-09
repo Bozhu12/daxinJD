@@ -1,12 +1,15 @@
 package com.sans.model.enums;
 
 /**
- * 错误码
+ * 响应状态
  * @author Sans
  */
 public enum StateCode {
 
-    SUCCESS(0, "ok"),
+    /*
+    * 请求响应状态
+    * */
+    SUCCESS(20000, "ok"),
     PARAMS_ERROR(40000, "请求参数错误"),
     NOT_LOGIN_ERROR(40100, "未登录"),
     NO_AUTH_ERROR(40101, "无权限"),
