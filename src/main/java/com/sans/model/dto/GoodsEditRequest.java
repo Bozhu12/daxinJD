@@ -1,11 +1,13 @@
 package com.sans.model.dto;
 
 
+import java.io.Serializable;
+
 /**
  * 商品编辑请求
  * @author Sans
  */
-public class GoodsEditRequest {
+public class GoodsEditRequest implements Serializable {
 
     /**
      * 标题

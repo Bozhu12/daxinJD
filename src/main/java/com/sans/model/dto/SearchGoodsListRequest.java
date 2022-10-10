@@ -1,10 +1,12 @@
 package com.sans.model.dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Sans
  */
-public class SearchGoodsListRequest {
+public class SearchGoodsListRequest implements Serializable {
 
     private String query;
     private int cid = -1;

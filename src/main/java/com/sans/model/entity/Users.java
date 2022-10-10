@@ -2,6 +2,7 @@ package com.sans.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -61,6 +62,7 @@ public class Users implements Serializable {
      * 
      */
     @TableField(value = "delete")
+    @TableLogic
     private Integer delete;
 
     @TableField(exist = false)
