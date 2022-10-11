@@ -10,6 +10,7 @@ import java.util.Date;
 
 /**
  * 
+ * @author Sans
  * @TableName orderinfo
  */
 @TableName(value ="orderinfo")

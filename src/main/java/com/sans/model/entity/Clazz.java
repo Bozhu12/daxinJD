@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 /**
  * 
+ * @author Sans
  * @TableName clazz
  */
 @TableName(value ="clazz")

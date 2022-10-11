@@ -1,12 +1,15 @@
 package com.sans.model.dto;
 
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
  * 商品编辑请求
  * @author Sans
  */
+@Data
 public class GoodsEditRequest implements Serializable {
 
     /**

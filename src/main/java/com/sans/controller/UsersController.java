@@ -31,11 +31,11 @@ public class UsersController {
     @PostMapping(value = "/login", headers = "Authorization=token")
     public BaseResult login(@RequestBody UserLoginRequest userLoginRequest) {
         if (StringUtils.isBlank(userLoginRequest.getCode())) {
-            throw new BusinessException(StateCode.NOT_FOUND_ERROR, "请退出重新登录!");
+            throw new BusinessException(StateCode.NOT_FOUND_ERROR, "用户秘钥不存在! 请退出重新登录!");
         }
-        if (!wxMaService.switchover(userLoginRequest.getAppid())) {
-            throw new BusinessException(StateCode.OPERATION_ERROR, "请使用正确的前端端口!");
-        }
+        //if (!wxMaService.switchover(userLoginRequest.getAppid())) {
+        //    throw new BusinessException(StateCode.OPERATION_ERROR, "请使用正确的前端端口!");
+        //}
 
         try {
             WxMaJscode2SessionResult session = wxMaService.getUserService().getSessionInfo(userLoginRequest.getCode());
@@ -44,7 +44,7 @@ public class UsersController {
                     .putData("data", session)
                     .putData("token", token);
         } catch (WxErrorException e) {
-            throw new BusinessException(StateCode.NOT_FOUND_ERROR, "请退出重新登录!");
+            throw new BusinessException(StateCode.NOT_FOUND_ERROR, "用户秘钥不存在! 请退出重新登录!");
         } finally {
             //清理ThreadLocal
             WxMaConfigHolder.remove();

@@ -11,6 +11,7 @@ import java.util.Date;
 
 /**
  * 
+ * @author Sans
  * @TableName users
  */
 @TableName(value ="users")

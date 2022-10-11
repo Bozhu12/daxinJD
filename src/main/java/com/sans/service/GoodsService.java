@@ -2,8 +2,11 @@ package com.sans.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sans.exception.BusinessException;
+import com.sans.model.dto.GoodsEditRequest;
 import com.sans.model.dto.SearchGoodsListRequest;
 import com.sans.model.entity.Goods;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
 * @author Sans
@@ -26,4 +29,20 @@ public interface GoodsService extends IService<Goods> {
      * @return 响应可行
      */
     boolean edit(Goods goods, boolean edit);
+
+    /**
+     * 匹配整合数据
+     * @param goodsId 操作商品id
+     * @param goodsEditRequest 请求数据
+     * @return 编辑操作对象
+     * @throws BusinessException 类型转换异常
+     */
+    Goods selectUpdateProperty(String goodsId, GoodsEditRequest goodsEditRequest)throws BusinessException;
+
+    /**
+     * 根据商品id找商品
+     * @param id 商品id
+     * @return 商品对象
+     */
+    Goods findById(long id);
 }

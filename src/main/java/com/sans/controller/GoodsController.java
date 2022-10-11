@@ -1,13 +1,15 @@
 package com.sans.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sans.exception.BusinessException;
 import com.sans.model.dto.GoodsEditRequest;
 import com.sans.model.dto.SearchGoodsListRequest;
+import com.sans.model.entity.Goods;
+import com.sans.model.enums.StateCode;
 import com.sans.service.GoodsService;
 import com.sans.utils.BaseResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -27,15 +29,47 @@ public class GoodsController {
 
     @PostMapping("/search")
     public BaseResult search(@RequestBody SearchGoodsListRequest search) {
-        return BaseResult.ok().putData("data", goodsService.search(search));
+        // 参数校验
+        if (StringUtils.isBlank(search.getQuery())) {
+            throw new BusinessException(StateCode.PARAMS_ERROR, "参数异常!搜索的关键字不正确");
+        }
+        if (search.getPageNum() <= 0) {
+            throw new BusinessException(StateCode.PARAMS_ERROR, "参数异常!分页参数异常");
+        }
+
+        // 业务操作
+        Page<Goods> searchPage = goodsService.search(search);
+        // 数据不存在
+        if (searchPage.getRecords().size() == 0) {
+            throw new BusinessException(StateCode.NOT_FOUND_ERROR);
+        }
+        return BaseResult.ok().putData("data", searchPage);
     }
 
-    // TODO 商品修改业务
-    @PostMapping("/edit")
-    public BaseResult edit(@RequestBody GoodsEditRequest goodsEditRequest) {
+    @PostMapping("/edit/{goodsId}")
+    public BaseResult edit(@PathVariable("goodsId") String goodsId,
+                           @RequestBody GoodsEditRequest goodsEditRequest) {
+        // 校验参数
+        if (StringUtils.isBlank(goodsId) || !StringUtils.isNumeric(goodsId)) {
+            throw new BusinessException(StateCode.PARAMS_ERROR);
+        }
+        Goods goods = goodsService.selectUpdateProperty(goodsId, goodsEditRequest);
+        if (!goodsService.edit(goods, true)) {
+            throw new BusinessException(StateCode.OPERATION_ERROR);
+        }
+        return BaseResult.ok();
+    }
 
-
-        return null;
+    @GetMapping("/find/{id}")
+    public BaseResult findById(@PathVariable("id")long id) {
+        if (id <= 0) {
+            throw new BusinessException(StateCode.PARAMS_ERROR);
+        }
+        Goods goods = goodsService.findById(id);
+        if (goods == null) {
+            throw new BusinessException(StateCode.NOT_FOUND_ERROR);
+        }
+        return BaseResult.ok().putData("data",goods);
     }
 }
 

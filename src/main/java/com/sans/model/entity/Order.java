@@ -10,6 +10,7 @@ import java.util.Date;
 
 /**
  * 
+ * @author Sans
  * @TableName order
  */
 @TableName(value ="order")

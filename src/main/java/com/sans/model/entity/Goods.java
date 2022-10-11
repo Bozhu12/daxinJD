@@ -77,7 +77,7 @@ public class Goods implements Serializable {
     private Double goodsSmallPrice;
 
     /**
-     * 状态
+     * 状态 (1启用,0禁用)
      */
     @TableField(value = "goods_status")
     private Integer goodsStatus;
