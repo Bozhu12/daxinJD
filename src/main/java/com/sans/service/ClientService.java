@@ -10,4 +10,5 @@ import com.sans.model.entity.Client;
 */
 public interface ClientService extends IService<Client> {
 
+    Client setNull(Client client);
 }

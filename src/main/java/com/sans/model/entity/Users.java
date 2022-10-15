@@ -1,9 +1,6 @@
 package com.sans.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -20,7 +17,7 @@ public class Users implements Serializable {
     /**
      * 
      */
-    @TableId(value = "id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
