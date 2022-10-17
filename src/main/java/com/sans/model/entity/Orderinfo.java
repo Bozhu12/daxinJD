@@ -17,41 +17,45 @@ import java.util.Date;
 @TableName(value ="orderinfo")
 @Data
 public class Orderinfo implements Serializable {
-    /**
-     * 
-     */
+
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 
+     * 订单id
      */
     @TableField(value = "orderinfo_order_id")
     private Long orderinfoOrderId;
 
     /**
-     * 
+     * 商品id
      */
     @TableField(value = "orderinfo_goods_id")
     private Long orderinfoGoodsId;
 
     /**
-     * 
+     * 商品sku
      */
     @TableField(value = "orderinfo_goods_SKU")
     private String orderinfoGoodsSku;
 
     /**
-     * 
+     * 商品数量
      */
     @TableField(value = "orderinfo_count")
     private Integer orderinfoCount;
 
     /**
-     * 
+     * 创建时间
      */
     @TableField(value = "orderinfo_create_time")
     private Date orderinfoCreateTime;
+
+    /**
+     * 商品单价
+     */
+    @TableField(value = "orderinfo_goods_price")
+    private Double orderinfoGoodsPrice;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

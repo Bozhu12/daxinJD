@@ -59,7 +59,7 @@ public class Users implements Serializable {
     /**
      * 
      */
-    @TableField(value = "delete")
+    @TableField(value = "`delete`")
     @TableLogic
     private Integer delete;
 

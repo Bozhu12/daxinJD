@@ -2,7 +2,7 @@ package com.sans.controller;
 
 
 import com.sans.exception.BusinessException;
-import com.sans.model.dto.ClientDTO;
+import com.sans.model.dto.ClientEditRequest;
 import com.sans.model.entity.Client;
 import com.sans.model.enums.StateCode;
 import com.sans.service.ClientService;
@@ -12,7 +12,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.annotation.Resources;
 
 /**
  * <p>
@@ -30,16 +29,16 @@ public class ClientController {
 
     // region CRUD
     @PostMapping("/add")
-    public BaseResult add(@RequestBody ClientDTO clientDTO) {
-        if (clientDTO == null) {
+    public BaseResult add(@RequestBody ClientEditRequest clientEditRequest) {
+        if (clientEditRequest == null) {
             throw new BusinessException(StateCode.PARAMS_ERROR);
         }
-        if (StringUtils.isAnyBlank(clientDTO.getClientName(),
-                clientDTO.getClientAddress(), clientDTO.getClientPhone1())) {
+        if (StringUtils.isAnyBlank(clientEditRequest.getClientName(),
+                clientEditRequest.getClientAddress(), clientEditRequest.getClientPhone1())) {
             throw new BusinessException(StateCode.PARAMS_ERROR , "参数有误, 必填 姓名/地址/手机号");
         }
         Client client = new Client();
-        BeanUtils.copyProperties(clientDTO, client);
+        BeanUtils.copyProperties(clientEditRequest, client);
         boolean save = clientService.save(client);
         if (!save) {
             throw new BusinessException(StateCode.OPERATION_ERROR);
@@ -48,12 +47,12 @@ public class ClientController {
     }
 
     @PostMapping("/edit")
-    public BaseResult edit(@RequestBody ClientDTO clientDTO) {
-        if (clientDTO == null || clientDTO.getId() == null) {
+    public BaseResult edit(@RequestBody ClientEditRequest clientEditRequest) {
+        if (clientEditRequest == null || clientEditRequest.getId() == null) {
             throw new BusinessException(StateCode.PARAMS_ERROR);
         }
         Client client = new Client();
-        BeanUtils.copyProperties(clientDTO, client);
+        BeanUtils.copyProperties(clientEditRequest, client);
         client = clientService.setNull(client);
         boolean b = clientService.updateById(client);
         return BaseResult.ok().putData("edit",b);

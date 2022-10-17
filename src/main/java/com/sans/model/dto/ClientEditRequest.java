@@ -6,7 +6,7 @@ import lombok.Data;
  * @author Sans
  */
 @Data
-public class ClientDTO {
+public class ClientEditRequest {
 
     private Long id;
     private String clientName;
