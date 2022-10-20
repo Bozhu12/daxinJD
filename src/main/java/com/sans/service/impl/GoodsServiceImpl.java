@@ -128,8 +128,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public Goods findById(long id) {
-        return goodsMapper.selectById(id);
+    public Goods findBySku(long sku) {
+        return goodsMapper.selectOne(new QueryWrapper<Goods>().eq("goods_sku",sku));
     }
 
 

@@ -33,9 +33,7 @@ public class OrderController {
         OrderAllInfoDTO orderAllInfoDTO = orderService.verificationOrderAddRequest(request);
         // 创建订单
         Order order = orderService.createOrder(orderAllInfoDTO);
-
-
-        return BaseResult.ok();
+        return BaseResult.ok().putData("order", order);
     }
 
 }

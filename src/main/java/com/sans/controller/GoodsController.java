@@ -62,12 +62,12 @@ public class GoodsController {
         return BaseResult.ok();
     }
 
-    @GetMapping("/find/{id}")
-    public BaseResult findById(@PathVariable("id") long id) {
-        if (id <= 0) {
+    @GetMapping("/find/{sku}")
+    public BaseResult findBySku(@PathVariable("sku") long sku) {
+        if (sku <= 0) {
             throw new BusinessException(StateCode.PARAMS_ERROR);
         }
-        Goods goods = goodsService.findById(id);
+        Goods goods = goodsService.findBySku(sku);
         if (goods == null) {
             throw new BusinessException(StateCode.NOT_FOUND_ERROR);
         }

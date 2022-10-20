@@ -44,5 +44,5 @@ public interface GoodsService extends IService<Goods> {
      * @param id 商品id
      * @return 商品对象
      */
-    Goods findById(long id);
+    Goods findBySku(long id);
 }
