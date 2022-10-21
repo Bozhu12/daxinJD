@@ -59,40 +59,50 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Override
     public Goods selectUpdateProperty(String goodsId, GoodsEditRequest goodsEditRequest) throws BusinessException {
+        // 确保数据修改
+        boolean allow = false;
         Goods newGoods = new Goods();
         // 1. 根据id获取库对象
         Goods oldGoods = goodsMapper.selectById(goodsId);
         // 2. 比较数据
         if (!StringUtils.equals(oldGoods.getGoodsTitle(), goodsEditRequest.getGoodsTitle())) {
             newGoods.setGoodsTitle(goodsEditRequest.getGoodsTitle());
+            allow = true;
         }
 
         if (!StringUtils.equals(oldGoods.getGoodsName(), goodsEditRequest.getGoodsName())) {
             newGoods.setGoodsName(goodsEditRequest.getGoodsName());
+            allow = true;
         }
 
         if (!StringUtils.equals(oldGoods.getGoodsModel(), goodsEditRequest.getGoodsModel())) {
             newGoods.setGoodsModel(goodsEditRequest.getGoodsModel());
+            allow = true;
         }
 
         if (!StringUtils.equals(oldGoods.getGoodsSku(), goodsEditRequest.getGoodsSku())) {
             newGoods.setGoodsSku(goodsEditRequest.getGoodsSku());
+            allow = true;
         }
 
         if (!StringUtils.equals(oldGoods.getGoodsBrand(), goodsEditRequest.getGoodsBrand())) {
             newGoods.setGoodsBrand(goodsEditRequest.getGoodsBrand());
+            allow = true;
         }
 
         if (!StringUtils.equals(oldGoods.getGoodsRemarks(), goodsEditRequest.getGoodsRemarks())) {
             newGoods.setGoodsRemarks(goodsEditRequest.getGoodsRemarks());
+            allow = true;
         }
 
         if (!StringUtils.equals(oldGoods.getGoodsBigLogo(), goodsEditRequest.getGoodsBigLogo())) {
             newGoods.setGoodsBigLogo(goodsEditRequest.getGoodsBigLogo());
+            allow = true;
         }
 
         if (!StringUtils.equals(oldGoods.getGoodsSmallLogo(), goodsEditRequest.getGoodsSmallLogo())) {
             newGoods.setGoodsSmallLogo(goodsEditRequest.getGoodsSmallLogo());
+            allow = true;
         }
 
         try {
@@ -100,36 +110,43 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 Long aLong = Long.valueOf(goodsEditRequest.getGoodsClassId());
                 if (Objects.equals(oldGoods.getGoodsClassId(), aLong)) {
                     newGoods.setGoodsClassId(aLong);
+                    allow = true;
                 }
             }
             if (goodsEditRequest.getGoodsSmallPrice() != null) {
                 Double aDouble = Double.valueOf(goodsEditRequest.getGoodsSmallPrice());
                 if (Objects.equals(oldGoods.getGoodsSmallPrice(), aDouble)) {
                     newGoods.setGoodsSmallPrice(aDouble);
+                    allow = true;
                 }
             }
             if (goodsEditRequest.getGoodsStatus() != null) {
                 Integer integer = Integer.getInteger(goodsEditRequest.getGoodsStatus());
                 if (Objects.equals(oldGoods.getGoodsStatus(), integer)) {
                     newGoods.setGoodsStatus(integer);
+                    allow = true;
                 }
             }
             if (goodsEditRequest.getGoodsPrice() != null) {
                 Double aDouble1 = Double.valueOf(goodsEditRequest.getGoodsPrice());
                 if (Objects.equals(oldGoods.getGoodsPrice(), aDouble1)) {
                     newGoods.setGoodsPrice(aDouble1);
+                    allow = true;
                 }
             }
             newGoods.setId(Long.valueOf(goodsId));
         } catch (NumberFormatException e) {
-            throw new BusinessException(StateCode.PARAMS_ERROR,"数值填写异常,请填写正确数据!");
+            throw new BusinessException(StateCode.PARAMS_ERROR, "数值填写异常,请填写正确数据!");
+        }
+        if (!allow) {
+            throw new BusinessException(StateCode.SUCCESS, "无数据修改!");
         }
         return newGoods;
     }
 
     @Override
     public Goods findBySku(long sku) {
-        return goodsMapper.selectOne(new QueryWrapper<Goods>().eq("goods_sku",sku));
+        return goodsMapper.selectOne(new QueryWrapper<Goods>().eq("goods_sku", sku));
     }
 
 
