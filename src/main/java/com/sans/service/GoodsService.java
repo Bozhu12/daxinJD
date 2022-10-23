@@ -28,7 +28,7 @@ public interface GoodsService extends IService<Goods> {
      * @param edit 是否操作
      * @return 响应可行
      */
-    boolean edit(Goods goods, boolean edit);
+    Goods edit(Goods goods, boolean edit);
 
     /**
      * 匹配整合数据
@@ -44,5 +44,12 @@ public interface GoodsService extends IService<Goods> {
      * @param id 商品id
      * @return 商品对象
      */
-    Goods findBySku(long id);
+    Goods findById(long id);
+
+    /**
+     * 根据商品ksu找商品
+     * @param sku 商品sku
+     * @return 商品对象
+     */
+    Goods findBySku(long sku);
 }

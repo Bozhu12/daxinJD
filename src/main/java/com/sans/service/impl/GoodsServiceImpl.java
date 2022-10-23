@@ -49,9 +49,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean edit(Goods goods, boolean edit) {
+    public Goods edit(Goods goods, boolean edit) {
         try {
-            return goodsMapper.updateById(goods) >= 0;
+            if (goodsMapper.updateById(goods) <= 0) throw new BusinessException(StateCode.SYSTEM_ERROR);
+            return goods;
         } catch (Exception e) {
             throw new BusinessException(StateCode.SYSTEM_ERROR);
         }
@@ -69,75 +70,59 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             newGoods.setGoodsTitle(goodsEditRequest.getGoodsTitle());
             allow = true;
         }
-
         if (!StringUtils.equals(oldGoods.getGoodsName(), goodsEditRequest.getGoodsName())) {
             newGoods.setGoodsName(goodsEditRequest.getGoodsName());
             allow = true;
         }
-
         if (!StringUtils.equals(oldGoods.getGoodsModel(), goodsEditRequest.getGoodsModel())) {
             newGoods.setGoodsModel(goodsEditRequest.getGoodsModel());
             allow = true;
         }
-
-        if (!StringUtils.equals(oldGoods.getGoodsSku(), goodsEditRequest.getGoodsSku())) {
-            newGoods.setGoodsSku(goodsEditRequest.getGoodsSku());
-            allow = true;
-        }
-
         if (!StringUtils.equals(oldGoods.getGoodsBrand(), goodsEditRequest.getGoodsBrand())) {
             newGoods.setGoodsBrand(goodsEditRequest.getGoodsBrand());
             allow = true;
         }
-
         if (!StringUtils.equals(oldGoods.getGoodsRemarks(), goodsEditRequest.getGoodsRemarks())) {
             newGoods.setGoodsRemarks(goodsEditRequest.getGoodsRemarks());
             allow = true;
         }
-
         if (!StringUtils.equals(oldGoods.getGoodsBigLogo(), goodsEditRequest.getGoodsBigLogo())) {
             newGoods.setGoodsBigLogo(goodsEditRequest.getGoodsBigLogo());
             allow = true;
         }
-
         if (!StringUtils.equals(oldGoods.getGoodsSmallLogo(), goodsEditRequest.getGoodsSmallLogo())) {
             newGoods.setGoodsSmallLogo(goodsEditRequest.getGoodsSmallLogo());
             allow = true;
         }
-
-        try {
-            if (goodsEditRequest.getGoodsClassId() != null) {
-                Long aLong = Long.valueOf(goodsEditRequest.getGoodsClassId());
-                if (Objects.equals(oldGoods.getGoodsClassId(), aLong)) {
-                    newGoods.setGoodsClassId(aLong);
-                    allow = true;
-                }
-            }
-            if (goodsEditRequest.getGoodsSmallPrice() != null) {
-                Double aDouble = Double.valueOf(goodsEditRequest.getGoodsSmallPrice());
-                if (Objects.equals(oldGoods.getGoodsSmallPrice(), aDouble)) {
-                    newGoods.setGoodsSmallPrice(aDouble);
-                    allow = true;
-                }
-            }
-            if (goodsEditRequest.getGoodsStatus() != null) {
-                Integer integer = Integer.getInteger(goodsEditRequest.getGoodsStatus());
-                if (Objects.equals(oldGoods.getGoodsStatus(), integer)) {
-                    newGoods.setGoodsStatus(integer);
-                    allow = true;
-                }
-            }
-            if (goodsEditRequest.getGoodsPrice() != null) {
-                Double aDouble1 = Double.valueOf(goodsEditRequest.getGoodsPrice());
-                if (Objects.equals(oldGoods.getGoodsPrice(), aDouble1)) {
-                    newGoods.setGoodsPrice(aDouble1);
-                    allow = true;
-                }
-            }
-            newGoods.setId(Long.valueOf(goodsId));
-        } catch (NumberFormatException e) {
-            throw new BusinessException(StateCode.PARAMS_ERROR, "数值填写异常,请填写正确数据!");
+        if (oldGoods.getGoodsClassId() == null) {
+            newGoods.setGoodsClassId(goodsEditRequest.getGoodsClassId());
+            allow = true;
+        } else if (goodsEditRequest.getGoodsClassId() != oldGoods.getGoodsClassId()) {
+            newGoods.setGoodsClassId(goodsEditRequest.getGoodsClassId());
+            allow = true;
         }
+        if (oldGoods.getGoodsSmallPrice() == null) {
+            newGoods.setGoodsSmallPrice(goodsEditRequest.getGoodsSmallPrice());
+            allow = true;
+        } else if (goodsEditRequest.getGoodsSmallPrice() != oldGoods.getGoodsSmallPrice()) {
+            newGoods.setGoodsSmallPrice(goodsEditRequest.getGoodsSmallPrice());
+            allow = true;
+        }
+        if (oldGoods.getGoodsStatus() == null) {
+            newGoods.setGoodsStatus(goodsEditRequest.getGoodsStatus());
+            allow = true;
+        } else if (goodsEditRequest.getGoodsStatus() != oldGoods.getGoodsStatus()) {
+            newGoods.setGoodsStatus(goodsEditRequest.getGoodsStatus());
+            allow = true;
+        }
+        if (oldGoods.getGoodsPrice() == null) {
+            newGoods.setGoodsPrice(goodsEditRequest.getGoodsPrice());
+            allow = true;
+        } else if (goodsEditRequest.getGoodsPrice() != oldGoods.getGoodsPrice()) {
+            newGoods.setGoodsPrice(goodsEditRequest.getGoodsPrice());
+            allow = true;
+        }
+        newGoods.setId(Long.valueOf(goodsId));
         if (!allow) {
             throw new BusinessException(StateCode.SUCCESS, "无数据修改!");
         }
@@ -145,9 +130,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
+    public Goods findById(long id) {
+        return goodsMapper.selectById(id);
+    }
+
+    @Override
     public Goods findBySku(long sku) {
         return goodsMapper.selectOne(new QueryWrapper<Goods>().eq("goods_sku", sku));
     }
+
 
 
 }

@@ -56,10 +56,11 @@ public class GoodsController {
             throw new BusinessException(StateCode.PARAMS_ERROR);
         }
         Goods goods = goodsService.selectUpdateProperty(goodsId, goodsEditRequest);
-        if (!goodsService.edit(goods, true)) {
-            throw new BusinessException(StateCode.OPERATION_ERROR);
-        }
-        return BaseResult.ok();
+        Goods edit = goodsService.edit(goods, true);
+        if (edit == null) throw new BusinessException(StateCode.OPERATION_ERROR);
+        Goods data = goodsService.findById(Long.parseLong(goodsId));
+        if (data == null) throw new BusinessException(StateCode.OPERATION_ERROR);
+        return BaseResult.ok().putData("data", data);
     }
 
     @GetMapping("/find/{sku}")

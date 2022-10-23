@@ -1,7 +1,10 @@
 package com.sans.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sans.model.dto.ClientSpecialDTO;
 import com.sans.model.entity.Client;
+
+import java.util.List;
 
 /**
 * @author Sans
@@ -11,4 +14,6 @@ import com.sans.model.entity.Client;
 public interface ClientService extends IService<Client> {
 
     Client setNull(Client client);
+
+    List<ClientSpecialDTO> findAllOrderByName();
 }

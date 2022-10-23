@@ -35,7 +35,7 @@ public class GoodsEditRequest implements Serializable {
     /**
      * 分类id
      */
-    private String goodsClassId;
+    private long goodsClassId;
 
     /**
      * 品牌
@@ -45,17 +45,17 @@ public class GoodsEditRequest implements Serializable {
     /**
      * 单价
      */
-    private String goodsPrice;
+    private double goodsPrice;
 
     /**
      * 最低单价
      */
-    private String goodsSmallPrice;
+    private double goodsSmallPrice;
 
     /**
      * 状态
      */
-    private String goodsStatus;
+    private int goodsStatus;
 
     /**
      * 备注

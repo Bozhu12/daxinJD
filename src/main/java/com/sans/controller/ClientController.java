@@ -3,6 +3,7 @@ package com.sans.controller;
 
 import com.sans.exception.BusinessException;
 import com.sans.model.dto.ClientEditRequest;
+import com.sans.model.dto.ClientSpecialDTO;
 import com.sans.model.entity.Client;
 import com.sans.model.enums.StateCode;
 import com.sans.service.ClientService;
@@ -12,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -27,7 +29,16 @@ public class ClientController {
     @Resource
     private ClientService clientService;
 
+    @GetMapping("/indexlist")
+    public BaseResult findAllOrderByName() {
+        List<ClientSpecialDTO> allOrderByName = clientService.findAllOrderByName();
+        if (allOrderByName == null || allOrderByName.size() == 0)
+            throw new BusinessException(StateCode.SYSTEM_ERROR);
+        return BaseResult.ok().putData("data",allOrderByName);
+    }
+
     // region CRUD
+
     @PostMapping("/add")
     public BaseResult add(@RequestBody ClientEditRequest clientEditRequest) {
         if (clientEditRequest == null) {
@@ -75,6 +86,7 @@ public class ClientController {
         Client client = clientService.getById(id);
         return BaseResult.ok().putData("client", client);
     }
+
     // endregion
 }
 
