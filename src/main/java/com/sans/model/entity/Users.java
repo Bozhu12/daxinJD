@@ -38,6 +38,12 @@ public class Users implements Serializable {
     @TableField(value = "user_phone")
     private String userPhone;
 
+    @TableField(value = "user_email")
+    private String userEmail;
+
+    @TableField(value = "user_password")
+    private String userPassword;
+
     /**
      * 
      */

@@ -11,14 +11,8 @@ import java.io.Serializable;
 @Data
 public class UserLoginRequest implements Serializable {
 
-    /**
-     * 小程序id
-     */
-    private String appid;
+    private String userAccount;
 
-    /**
-     * 用户密文
-     */
-    private String code;
+    private String userPassword;
 
 }
