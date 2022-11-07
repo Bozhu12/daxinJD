@@ -4,16 +4,19 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.binarywang.utils.qrcode.QrcodeUtils;
 import com.sans.exception.BusinessException;
 import com.sans.model.dto.GoodsEditRequest;
+import com.sans.model.dto.GoodsFindRequest;
 import com.sans.model.dto.SearchGoodsListRequest;
 import com.sans.model.entity.Goods;
 import com.sans.model.enums.StateCode;
 import com.sans.service.GoodsService;
 import com.sans.utils.BaseResult;
+import org.apache.catalina.connector.Request;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -32,18 +35,14 @@ public class GoodsController {
     @PostMapping("/search")
     public BaseResult search(@RequestBody SearchGoodsListRequest search) {
         // 参数校验
-        if (StringUtils.isBlank(search.getQuery())) {
-            throw new BusinessException(StateCode.PARAMS_ERROR, "参数异常!搜索的关键字不正确");
-        }
-        if (search.getPageNum() <= 0) {
+        if (search.getPageNum() <= 0 || search.getPageSize() <= 4) {
             throw new BusinessException(StateCode.PARAMS_ERROR, "参数异常!分页参数异常");
         }
-
         // 业务操作
         Page<Goods> searchPage = goodsService.search(search);
         // 数据不存在
         if (searchPage.getRecords().size() == 0) {
-            throw new BusinessException(StateCode.NOT_FOUND_ERROR);
+            throw new BusinessException(StateCode.NOT_FOUND_ERROR, "已经没有数据啦!");
         }
         return BaseResult.ok().putData("data", searchPage);
     }
@@ -73,6 +72,12 @@ public class GoodsController {
             throw new BusinessException(StateCode.NOT_FOUND_ERROR);
         }
         return BaseResult.ok().putData("data", goods);
+    }
+
+    @PostMapping("/find/sku")
+    public BaseResult findBySkuList(@RequestBody GoodsFindRequest goodsFindRequest) {
+        List<Goods> list = goodsService.findBySkus(goodsFindRequest.getSkus());
+        return BaseResult.ok().putData("list",list);
     }
 
     @GetMapping(value = "/qrcode/sku/{sku}", produces = MediaType.IMAGE_JPEG_VALUE)

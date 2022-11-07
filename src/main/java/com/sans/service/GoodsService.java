@@ -8,6 +8,8 @@ import com.sans.model.dto.SearchGoodsListRequest;
 import com.sans.model.entity.Goods;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 /**
 * @author Sans
 * @description 针对表【goods】的数据库操作Service
@@ -52,4 +54,11 @@ public interface GoodsService extends IService<Goods> {
      * @return 商品对象
      */
     Goods findBySku(long sku);
+
+    /**
+     * 根据商品sku找商品(批量)
+     * @param skus 商品sku
+     * @return 集合
+     */
+    List<Goods> findBySkus(List<String> skus);
 }

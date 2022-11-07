@@ -10,4 +10,5 @@ import com.sans.model.entity.Orderinfo;
 */
 public interface OrderinfoService extends IService<Orderinfo> {
 
+
 }

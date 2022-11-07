@@ -3,10 +3,12 @@ package com.sans.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sans.exception.BusinessException;
+import com.sans.utils.LogMsgUtils;
 import com.sans.model.entity.Users;
 import com.sans.mapper.UsersMapper;
 import com.sans.model.enums.StateCode;
 import com.sans.service.UsersService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -14,6 +16,7 @@ import org.springframework.util.DigestUtils;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import static com.sans.constant.UserConstant.ADMIN_ROLE;
 import static com.sans.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
@@ -24,6 +27,7 @@ import static com.sans.constant.UserConstant.USER_LOGIN_STATE;
  * @author Sans
  */
 @Service
+@Slf4j
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements UsersService {
 
     @Resource
@@ -51,6 +55,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
             if (!saveResult) {
                 throw new BusinessException(StateCode.SYSTEM_ERROR, "注册失败，数据库错误");
             }
+            LogMsgUtils.logOutput("["+user.getId() +" | "+ user.getUserName()+"]");
             return user.getId();
         }
     }
@@ -85,10 +90,33 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         if (user == null) user = user2;
         // 记录用户的登录态
         request.getSession().setAttribute(USER_LOGIN_STATE, user);
+        LogMsgUtils.logOutput("["+user.getId() +" | "+ user.getUserName()+"]");
         return user;
     }
 
+    @Override
+    public boolean isAdmin(HttpServletRequest request) {
+        // 仅管理员可查询
+        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
+        Users user = (Users) userObj;
+        return user != null && ADMIN_ROLE.equals(user.getUserRoot());
+    }
 
-
+    @Override
+    public Users getLoginUser(HttpServletRequest request) {
+        // 先判断是否已登录
+        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
+        Users currentUser = (Users) userObj;
+        if (currentUser == null || currentUser.getId() == null) {
+            throw new BusinessException(StateCode.NOT_LOGIN_ERROR);
+        }
+        // 从数据库查询（追求性能的话可以注释，直接走缓存）
+        long userId = currentUser.getId();
+        currentUser = this.getById(userId);
+        if (currentUser == null) {
+            throw new BusinessException(StateCode.NOT_LOGIN_ERROR);
+        }
+        return currentUser;
+    }
 
 }

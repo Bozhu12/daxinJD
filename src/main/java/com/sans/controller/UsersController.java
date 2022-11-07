@@ -1,9 +1,7 @@
 package com.sans.controller;
 
-
-import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.binarywang.wx.miniapp.util.WxMaConfigHolder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sans.exception.BusinessException;
 import com.sans.model.dto.UserLoginRequest;
 import com.sans.model.dto.UserRegisterRequest;
@@ -13,7 +11,6 @@ import com.sans.service.UsersService;
 import com.sans.utils.BaseResult;
 import com.sans.utils.JwtUtils;
 import lombok.AllArgsConstructor;
-import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +33,15 @@ public class UsersController {
     @Resource
     private UsersService usersService;
 
+    @Resource
+    private ObjectMapper objectMapper;
+
+    /**
+     * 登录
+     * @param userLoginRequest
+     * @param request
+     * @return
+     */
     @PostMapping(value = "/login", headers = "Authorization=token")
     public BaseResult login(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
         if (userLoginRequest == null) {
@@ -48,12 +54,23 @@ public class UsersController {
         }
         Users user = usersService.userLogin(userAccount, userPassword, request);
         user.setUserPassword(null);
-        String token = JwtUtils.generateToken(userAccount);
+        String userJson = null;
+        try {
+            userJson = objectMapper.writeValueAsString(user);
+        } catch (JsonProcessingException e) {
+            throw new BusinessException(StateCode.OPERATION_ERROR, "token生成异常!");
+        }
+        String token = JwtUtils.generateToken(userJson);
         return BaseResult.ok()
                 .putData("user",user)
                 .putData("token",token);
     }
 
+    /**
+     * 注册
+     * @param userRegisterRequest
+     * @return
+     */
     @PostMapping("/register")
     public BaseResult register(@RequestBody UserRegisterRequest userRegisterRequest) {
         if (StringUtils.isAnyBlank(
@@ -68,6 +85,13 @@ public class UsersController {
         long userId = usersService.userRegister(user);
         return BaseResult.ok().putData("userId",userId);
     }
+
+    @GetMapping("/get/login")
+    public BaseResult getLoginUser(HttpServletRequest request) {
+        return BaseResult.ok();
+    }
+
+
 
 }
 

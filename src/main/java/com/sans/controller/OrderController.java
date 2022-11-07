@@ -1,17 +1,15 @@
 package com.sans.controller;
 
 
-import com.sans.model.dto.OrderAddRequest;
-import com.sans.model.dto.OrderAllInfoDTO;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.sans.model.dto.*;
 import com.sans.model.entity.Order;
 import com.sans.service.OrderService;
 import com.sans.utils.BaseResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -35,6 +33,43 @@ public class OrderController {
         Order order = orderService.createOrder(orderAllInfoDTO);
         return BaseResult.ok().putData("order", order);
     }
+
+    @PostMapping("/list")
+    public BaseResult orderList(@RequestBody OrderPageListRequest res) {
+        List<OrderUnitDTO> orderList = orderService.orderList(res.getPageNum(), res.getPageSize());
+        return BaseResult.ok().putData("list", orderList);
+    }
+
+    @GetMapping("/info/{id}")
+    public BaseResult orderInfoById(@PathVariable("id") long id) {
+        OrderInfoDTO orderInfoDTO = orderService.orderInfoMsg(id);
+        return BaseResult.ok().putData("data", orderInfoDTO);
+    }
+
+    @GetMapping("/count")
+    public BaseResult orderCount() {
+        long count = orderService.count();
+        return BaseResult.ok().putData("count", count);
+    }
+
+    @GetMapping("/withdrawal/count")
+    public BaseResult orderWithdrawalCount() {
+        long count = orderService.count(new QueryWrapper<Order>().eq("order_status", 1));
+        return BaseResult.ok().putData("count", count);
+    }
+
+    @GetMapping("/withdrawal/list")
+    public BaseResult orderWithdrawal() {
+        List<Order> orders = orderService.orderRetreat();
+        return BaseResult.ok().putData("list", orders);
+    }
+
+    @GetMapping("/withdrawal/edit/{id}")
+    public BaseResult orderEditStatus(@PathVariable("id") long orderId) {
+        Order order = orderService.orderStatusResetById(orderId);
+        return BaseResult.ok().putData("data", order);
+    }
+
 
 }
 

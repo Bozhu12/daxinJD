@@ -11,12 +11,14 @@ import com.sans.mapper.GoodsMapper;
 
 import com.sans.model.enums.StateCode;
 import com.sans.service.GoodsService;
+import com.sans.utils.LogMsgUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -36,12 +38,20 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public Page<Goods> search(SearchGoodsListRequest search) {
         Page<Goods> page = new Page<>(search.getPageNum(), search.getPageSize());
         QueryWrapper<Goods> qw = new QueryWrapper<>();
+        String query = search.getQuery();
+        String type = search.getType();
         // 检查数值 , (Yes 搜索 SKU ; No 查询 关键值)
-        if (StringUtils.isNumeric(search.getQuery())) {
-            qw.eq(true, "goods_sku", search.getQuery());
+        if (StringUtils.isNumeric(query)) {
+            qw.eq("goods_sku", search.getQuery());
         } else {
-            qw.like(true, "goods_title", search.getQuery());
+            // 用户是否填写内容
+            boolean revisedType = !StringUtils.isBlank(type);
+            boolean revisedQuery = !StringUtils.isBlank(query);
             qw.eq(search.getCid() == -1, "goods_class_id", search.getCid());
+            qw.like(revisedType, "goods_class_name",type);
+            qw.like(revisedQuery, "goods_title", search.getQuery());
+            qw.or(revisedQuery);
+            qw.like(revisedQuery, "goods_name",query);
         }
         goodsMapper.selectPage(page, qw);
         return page;
@@ -52,6 +62,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public Goods edit(Goods goods, boolean edit) {
         try {
             if (goodsMapper.updateById(goods) <= 0) throw new BusinessException(StateCode.SYSTEM_ERROR);
+            LogMsgUtils.logOutput("[ SKU: "+goods.getGoodsSku()+"]");
             return goods;
         } catch (Exception e) {
             throw new BusinessException(StateCode.SYSTEM_ERROR);
@@ -139,6 +150,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         return goodsMapper.selectOne(new QueryWrapper<Goods>().eq("goods_sku", sku));
     }
 
-
+    @Override
+    public List<Goods> findBySkus(List<String> skus) {
+        QueryWrapper<Goods> qw = new QueryWrapper<>();
+        qw.in(skus.size() > 1 , "goods_sku",skus);
+        return goodsMapper.selectList(qw);
+    }
 
 }

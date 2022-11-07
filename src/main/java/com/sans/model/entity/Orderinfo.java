@@ -57,6 +57,14 @@ public class Orderinfo implements Serializable {
     @TableField(value = "orderinfo_goods_price")
     private Double orderinfoGoodsPrice;
 
+    /**
+     * 订单详细状态
+     */
+    @TableField(value = "orderinfo_status")
+    private int orderinfoStatus;
+
+
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

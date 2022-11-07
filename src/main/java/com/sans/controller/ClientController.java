@@ -8,6 +8,7 @@ import com.sans.model.entity.Client;
 import com.sans.model.enums.StateCode;
 import com.sans.service.ClientService;
 import com.sans.utils.BaseResult;
+import com.sans.utils.LogMsgUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -66,6 +67,7 @@ public class ClientController {
         BeanUtils.copyProperties(clientEditRequest, client);
         client = clientService.setNull(client);
         boolean b = clientService.updateById(client);
+        LogMsgUtils.logOutput("[ 客户名称: "+client.getClientName()+"]");
         return BaseResult.ok().putData("edit",b);
     }
 
@@ -75,6 +77,7 @@ public class ClientController {
             throw new BusinessException(StateCode.PARAMS_ERROR);
         }
         boolean b = clientService.removeById(id);
+        LogMsgUtils.logOutput("[ 客户id: "+ id +"]");
         return BaseResult.ok().putData("del", b);
     }
 

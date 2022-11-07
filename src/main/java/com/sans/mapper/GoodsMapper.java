@@ -10,7 +10,6 @@ import com.sans.model.entity.Goods;
 * @Entity com.sans.model.entity.Goods
 */
 public interface GoodsMapper extends BaseMapper<Goods> {
-
 }
 
 

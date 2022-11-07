@@ -14,5 +14,8 @@ public class ClientSpecialDTO implements Serializable {
     private Long id;
     private String clientName;
     private String serialNumber;
+    private String clientPhone1;
+    private String clientPhone2;
+
 
 }

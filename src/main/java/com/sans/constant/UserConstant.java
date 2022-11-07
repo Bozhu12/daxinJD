@@ -22,12 +22,12 @@ public interface UserConstant {
     /**
      * 默认权限
      */
-    String DEFAULT_ROLE = "user";
+    Integer DEFAULT_ROLE = 0;
 
     /**
      * 管理员权限
      */
-    String ADMIN_ROLE = "admin";
+    Integer ADMIN_ROLE = 1;
 
     // endregion
 }
