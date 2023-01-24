@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new AuthInterceptor());
     }
 
-// 跨域
+    // 跨域
     //@Override
     //public void addCorsMappings(CorsRegistry registry) {
     //    // 允许访问的路径
@@ -35,7 +35,6 @@ public class WebConfig implements WebMvcConfigurer {
     //            // 允许 头部设置
     //            .allowedHeaders("*")
     //            // 允许 有效期
-    //
     //            .maxAge(1800);
     //}
 

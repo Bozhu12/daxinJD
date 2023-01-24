@@ -18,12 +18,14 @@ public class BaseResult {
     private Map<String, Object> response = new HashMap<>();
 
     private BaseResult() {}
+    private BaseResult(StateCode stateCode) {
+        this.code = stateCode.getCode();
+        this.message = stateCode.getMessage();
+    }
 
     public static BaseResult ok() {
-        return new BaseResult()
-                .setSuccess(true)
-                .setCode(StateCode.SUCCESS.getCode())
-                .setMessage(StateCode.SUCCESS.getMessage());
+        return new BaseResult(StateCode.SUCCESS)
+                .setSuccess(true);
     }
 
     public static BaseResult error(StateCode stateCode) {

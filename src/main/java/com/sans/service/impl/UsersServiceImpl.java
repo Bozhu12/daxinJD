@@ -64,13 +64,10 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     public Users userLogin(String userAccount, String userPassword, HttpServletRequest request){
         // 校验
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
-            throw new BusinessException(StateCode.PARAMS_ERROR, "参数为空");
+            throw new BusinessException(StateCode.PARAMS_ERROR);
         }
-        if (userAccount.length() < 2) {
-            throw new BusinessException(StateCode.PARAMS_ERROR, "账号错误");
-        }
-        if (userPassword.length() < 5) {
-            throw new BusinessException(StateCode.PARAMS_ERROR, "密码错误");
+        if (userAccount.length() < 2 || userPassword.length() < 5) {
+            throw new BusinessException(StateCode.PARAMS_ERROR, "账号/密码 没有合法要求填写!");
         }
         // 加密
         String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
@@ -85,7 +82,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         Users user2 = usersMapper.selectOne(queryWrapper2);
         // 用户不存在
         if (user == null && user2 == null) {
-            throw new BusinessException(StateCode.PARAMS_ERROR, "用户不存在或密码错误");
+            throw new BusinessException(StateCode.LOGIN_ERROR);
         }
         if (user == null) user = user2;
         // 记录用户的登录态
@@ -119,4 +116,24 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         return currentUser;
     }
 
+    @Override
+    public Users getSafetyUser(Users originUser) {
+        if (originUser == null) return null;
+        Users safetyUser = new Users();
+        safetyUser.setId(originUser.getId());
+        safetyUser.setUserName(originUser.getUserName());
+        safetyUser.setUserTrueName(originUser.getUserTrueName());
+        safetyUser.setUserPhone(originUser.getUserPhone());
+        safetyUser.setUserEmail(originUser.getUserEmail());
+        safetyUser.setUserAvatar(originUser.getUserAvatar());
+        return safetyUser;
+    }
+
+    @Override
+    public Users getCurrentUser(HttpServletRequest req) {
+        if (req == null) throw new BusinessException(StateCode.NOT_LOGIN_ERROR);
+        Object attribute = req.getSession().getAttribute(USER_LOGIN_STATE);
+        if (attribute == null) throw new BusinessException(StateCode.NOT_LOGIN_ERROR);
+        return (Users) attribute;
+    }
 }

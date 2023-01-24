@@ -36,7 +36,7 @@ public class OrderController {
 
     @PostMapping("/list")
     public BaseResult orderList(@RequestBody OrderPageListRequest res) {
-        List<OrderUnitDTO> orderList = orderService.orderList(res.getPageNum(), res.getPageSize());
+        List<OrderUnitDTO> orderList = orderService.orderList(res.getPageNum(), res.getPageSize(),false);
         return BaseResult.ok().putData("list", orderList);
     }
 
@@ -48,7 +48,7 @@ public class OrderController {
 
     @GetMapping("/count")
     public BaseResult orderCount() {
-        long count = orderService.count();
+        long count = orderService.count(new QueryWrapper<Order>().eq("order_status",0));
         return BaseResult.ok().putData("count", count);
     }
 
@@ -58,10 +58,10 @@ public class OrderController {
         return BaseResult.ok().putData("count", count);
     }
 
-    @GetMapping("/withdrawal/list")
-    public BaseResult orderWithdrawal() {
-        List<Order> orders = orderService.orderRetreat();
-        return BaseResult.ok().putData("list", orders);
+    @PostMapping("/withdrawal/list")
+    public BaseResult orderWithdrawal(@RequestBody OrderPageListRequest res) {
+        List<OrderUnitDTO> orderList = orderService.orderList(res.getPageNum(), res.getPageSize(),true);
+        return BaseResult.ok().putData("list", orderList);
     }
 
     @GetMapping("/withdrawal/edit/{id}")

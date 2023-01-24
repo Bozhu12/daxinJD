@@ -33,10 +33,10 @@ public class UriDistinguishUtils {
      * @return 返回人们理解的方式
      */
     public static String oneLevelAnalysis(String uri) {
-        if (uri.matches(oneRegex(USER))) return "用户";
-        if (uri.matches(oneRegex(CLIENT))) return "客户";
-        if (uri.matches(oneRegex(GOODS))) return "商品";
-        if (uri.matches(oneRegex(ORDERS))) return "订单";
+        if (uri.matches(oneRegex(USER))) return "user";
+        if (uri.matches(oneRegex(CLIENT))) return "client";
+        if (uri.matches(oneRegex(GOODS))) return "goods";
+        if (uri.matches(oneRegex(ORDERS))) return "order";
         return null;
     }
 
@@ -46,15 +46,15 @@ public class UriDistinguishUtils {
      * @return 返回人们理解的方式
      */
     public static String twoLevelAnalysis(String uri){
-        if (uri.matches(twoRegex(ADD))) return "添加";
-        if (uri.matches(twoRegex(DEL))) return "删除";
-        if (uri.matches(twoRegex(EDIT))) return "编辑";
-        if (uri.matches(twoRegex(SEARCH))) return "查找";
-        if (uri.matches(twoRegex(QRCODE))) return "生成码";
-        if (uri.matches(twoRegex(CREATE))) return "创建";
-        if (uri.matches(twoRegex(REGISTER))) return "注册";
-        if (uri.matches(twoRegex(LOGIN))) return "登录";
-        if (uri.matches(twoRegex(FOND))) return "查找";
+        if (uri.matches(twoRegex(ADD))) return "add";
+        if (uri.matches(twoRegex(DEL))) return "del";
+        if (uri.matches(twoRegex(EDIT))) return "update";
+        if (uri.matches(twoRegex(SEARCH))) return "find";
+        if (uri.matches(twoRegex(QRCODE))) return "generateCode";
+        if (uri.matches(twoRegex(CREATE))) return "create";
+        if (uri.matches(twoRegex(REGISTER))) return "registered";
+        if (uri.matches(twoRegex(LOGIN))) return "login";
+        if (uri.matches(twoRegex(FOND))) return "seek";
         return null;
     }
 

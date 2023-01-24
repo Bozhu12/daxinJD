@@ -153,7 +153,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public List<Goods> findBySkus(List<String> skus) {
         QueryWrapper<Goods> qw = new QueryWrapper<>();
-        qw.in(skus.size() > 1 , "goods_sku",skus);
+        qw.in(skus.size() > 0 , "goods_sku",skus);
         return goodsMapper.selectList(qw);
     }
 

@@ -38,7 +38,7 @@ public interface OrderService extends IService<Order> {
      * @param pageSize
      * @return
      */
-    List<OrderUnitDTO> orderList(int pageNum, int pageSize);
+    List<OrderUnitDTO> orderList(int pageNum, int pageSize, boolean isDel);
 
     /**
      * 订单详细页
@@ -46,12 +46,6 @@ public interface OrderService extends IService<Order> {
      * @return
      */
     OrderInfoDTO orderInfoMsg(long id);
-
-    /**
-     * 获取测回的数据
-     * @return
-     */
-    List<Order> orderRetreat();
 
     /**
      * 订单状态转换

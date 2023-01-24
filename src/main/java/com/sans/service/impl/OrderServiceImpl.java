@@ -139,14 +139,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
-    public List<OrderUnitDTO> orderList(int pageNum, int pageSize) {
+    public List<OrderUnitDTO> orderList(int pageNum, int pageSize , boolean isDel) {
         Page<Order> page = new Page<>(pageNum, pageSize);
         Page<Order> orderPage = this.page(page);
 
         // 集合提取数据
         List<Order> records = orderPage.getRecords();
         List<OrderUnitDTO> list = new ArrayList<>();
+        // 内存处理
         for (Order order : records) {
+            if (isDel && order.getOrderStatus() == 0) continue;
+            if (!isDel && order.getOrderStatus() == 1) continue;
             OrderUnitDTO orderUnitDTO = orderMapper.orderInfoById(order.getId());
             list.add(orderUnitDTO);
         }
@@ -171,10 +174,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderInfoDTO.setGoodsList(goodsList);
         orderInfoDTO.setOrderInfoList(orderInfoList);
         return orderInfoDTO;
-    }
-
-    public List<Order> orderRetreat() {
-        return orderMapper.selectList(new QueryWrapper<Order>().eq("order_status", 1));
     }
 
 

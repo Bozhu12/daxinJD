@@ -4,19 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sans.mapper.ClientMapper;
 import com.sans.mapper.OrderMapper;
-import com.sans.model.dto.OrderInfoDTO;
-import com.sans.model.dto.OrderUnitDTO;
+import com.sans.model.dto.ClientSpecialDTO;
 import com.sans.model.dto.SearchGoodsListRequest;
-import com.sans.model.entity.Client;
 import com.sans.model.entity.Goods;
 import com.sans.mapper.GoodsMapper;
 import com.sans.model.entity.Order;
 import com.sans.service.ClientService;
 import com.sans.service.GoodsService;
 import com.sans.service.OrderService;
-import com.sans.utils.JwtUtils;
 import com.sans.utils.SortUtils;
-import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -46,21 +42,11 @@ class DaxinJdApplicationTests {
 
     @Test
     void clientTest() throws JsonProcessingException {
-        //List<ClientSpecialDTO> allOrderByName = clientService.findAllOrderByName();
-        //System.out.println("=================");
-        //for (ClientSpecialDTO clientSpecialDTO : allOrderByName) {
-        //    System.out.println(clientSpecialDTO);
-        //}
-
-        Client client = clientMapper.selectById(4);
-        //String userJson = JSONUtils.toJSONString(obj);
-        String userJson = objectMapper.writeValueAsString(client);
-        System.out.println("userJson(JSON) = " + userJson);
-        String token = JwtUtils.generateToken(userJson);
-        System.out.println("token = " + token);
-        System.out.println("===========");
-        Claims claimsByToken = JwtUtils.getClaimsByToken(token);
-        System.out.println("claimsByToken = " + claimsByToken);
+        List<ClientSpecialDTO> allOrderByName = clientService.findAllOrderByName();
+        System.out.println("=================");
+        for (ClientSpecialDTO clientSpecialDTO : allOrderByName) {
+            System.out.println(clientSpecialDTO);
+        }
     }
 
 
@@ -87,8 +73,8 @@ class DaxinJdApplicationTests {
 
     @Test
     void orderTest2() {
-        List<Order> orders = orderService.orderRetreat();
-        orders.forEach(System.out::println);
+        //List<Order> orders = orderService.orderRetreat();
+        //orders.forEach(System.out::println);
     }
 
     @Test

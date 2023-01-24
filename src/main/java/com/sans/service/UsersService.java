@@ -18,7 +18,7 @@ public interface UsersService extends IService<Users> {
 
     /**
      * 用户登录
-     * @param userAccount 账号
+     * @param userAccount 账号/手机号
      * @param userPassword 密码
      * @param request 请求对象
      * @return 登录对象
@@ -46,4 +46,17 @@ public interface UsersService extends IService<Users> {
      */
     Users getLoginUser(HttpServletRequest request);
 
+    /**
+     * 数据脱敏 (屏蔽敏感数据)
+     * @param originUser
+     * @return
+     */
+    Users getSafetyUser(Users originUser);
+
+    /**
+     * 获取当前用户
+     * @param req
+     * @return
+     */
+    Users getCurrentUser(HttpServletRequest req);
 }
