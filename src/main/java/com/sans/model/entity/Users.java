@@ -53,8 +53,8 @@ public class Users implements Serializable {
     /**
      *  是否为管理员
      */
-    @TableField(value = "user_root")
-    private Integer userRoot;
+    @TableField(value = "user_role")
+    private Integer userRole;
 
     /**
      *  创建时间

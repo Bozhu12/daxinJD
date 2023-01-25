@@ -4,11 +4,14 @@ package com.sans.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sans.model.dto.*;
 import com.sans.model.entity.Order;
+import com.sans.model.entity.Users;
 import com.sans.service.OrderService;
+import com.sans.service.UsersService;
 import com.sans.utils.BaseResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -24,19 +27,21 @@ public class OrderController {
 
     @Resource
     private OrderService orderService;
+    @Resource
+    private UsersService usersService;
 
     @PostMapping("/create")
-    public BaseResult createOrder(@RequestBody OrderAddRequest request) {
+    public BaseResult createOrder(@RequestBody OrderAddRequest parameter) {
         // 验证参数 (异常会自动抛出)
-        OrderAllInfoDTO orderAllInfoDTO = orderService.verificationOrderAddRequest(request);
+        OrderAllInfoDTO orderAllInfoDTO = orderService.verificationOrderAddRequest(parameter);
         // 创建订单
         Order order = orderService.createOrder(orderAllInfoDTO);
         return BaseResult.ok().putData("order", order);
     }
 
     @PostMapping("/list")
-    public BaseResult orderList(@RequestBody OrderPageListRequest res) {
-        List<OrderUnitDTO> orderList = orderService.orderList(res.getPageNum(), res.getPageSize(),false);
+    public BaseResult orderList(@RequestBody OrderPageListRequest parameter) {
+        List<OrderUnitDTO> orderList = orderService.orderList(parameter.getPageNum(), parameter.getPageSize(),false);
         return BaseResult.ok().putData("list", orderList);
     }
 
@@ -59,17 +64,19 @@ public class OrderController {
     }
 
     @PostMapping("/withdrawal/list")
-    public BaseResult orderWithdrawal(@RequestBody OrderPageListRequest res) {
-        List<OrderUnitDTO> orderList = orderService.orderList(res.getPageNum(), res.getPageSize(),true);
+    public BaseResult orderWithdrawal(@RequestBody OrderPageListRequest parameter) {
+        List<OrderUnitDTO> orderList = orderService.orderList(parameter.getPageNum(), parameter.getPageSize(),true);
         return BaseResult.ok().putData("list", orderList);
     }
 
-    @GetMapping("/withdrawal/edit/{id}")
-    public BaseResult orderEditStatus(@PathVariable("id") long orderId) {
-        Order order = orderService.orderStatusResetById(orderId);
+    @GetMapping("/withdrawal/edit")
+    public BaseResult orderEditStatus(@RequestBody OrderWithdrawalRequestDTO parameter , HttpServletRequest req) {
+        // 鉴权
+        Users user = usersService.getCurrentUser(req);
+
+        Order order = orderService.orderStatusResetById(parameter.getOrderId());
         return BaseResult.ok().putData("data", order);
     }
-
 
 }
 

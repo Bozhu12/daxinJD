@@ -4,11 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sans.mapper.ClientMapper;
 import com.sans.mapper.OrderMapper;
+import com.sans.mapper.UsersMapper;
 import com.sans.model.dto.ClientSpecialDTO;
 import com.sans.model.dto.SearchGoodsListRequest;
 import com.sans.model.entity.Goods;
 import com.sans.mapper.GoodsMapper;
 import com.sans.model.entity.Order;
+import com.sans.model.entity.Users;
 import com.sans.service.ClientService;
 import com.sans.service.GoodsService;
 import com.sans.service.OrderService;
@@ -39,6 +41,17 @@ class DaxinJdApplicationTests {
 
     @Resource
     private ObjectMapper objectMapper;
+
+    @Resource
+    private UsersMapper usersMapper;
+
+    @Test
+    void userMapperTest() {
+        List<Users> users = usersMapper.selectList(null);
+        for (Users user : users) {
+            System.out.println("user = " + user);
+        }
+    }
 
     @Test
     void clientTest() throws JsonProcessingException {

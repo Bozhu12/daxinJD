@@ -94,9 +94,8 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     @Override
     public boolean isAdmin(HttpServletRequest request) {
         // 仅管理员可查询
-        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
-        Users user = (Users) userObj;
-        return user != null && ADMIN_ROLE.equals(user.getUserRoot());
+        Users user = getCurrentUser(request);
+        return ADMIN_ROLE.equals(user.getUserRole());
     }
 
     @Override
