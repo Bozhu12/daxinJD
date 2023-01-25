@@ -10,22 +10,24 @@ public class UriDistinguishUtils {
     /**
      * 一级 范围
      */
-    private static final String USER = "user";
-    private static final String CLIENT = "client";
-    private static final String GOODS = "goods";
-    private static final String ORDERS = "orders";
+    public static final String USER = "user";
+    public static final String CLIENT = "client";
+    public static final String GOODS = "goods";
+    public static final String ORDERS = "orders";
     /**
      * 二级 类型
      */
-    private static final String ADD = "add";
-    private static final String DEL = "del";
-    private static final String EDIT = "edit";
-    private static final String SEARCH = "search";
-    private static final String QRCODE = "qrcode";
-    private static final String CREATE = "create";
-    private static final String REGISTER = "register";
-    private static final String LOGIN = "login";
-    private static final String FOND = "find";
+    public static final String ADD = "add";
+    public static final String DEL = "del";
+    public static final String EDIT = "edit";
+    public static final String SEARCH = "search";
+    public static final String QRCODE = "qrcode";
+    public static final String CREATE = "create";
+    public static final String REGISTER = "register";
+    public static final String LOGIN = "login";
+    public static final String FIND = "find";
+    public static final String LIST = "list";
+    public static final String CURRENT = "current";
 
     /**
      * 一级解析uri
@@ -49,12 +51,12 @@ public class UriDistinguishUtils {
         if (uri.matches(twoRegex(ADD))) return "add";
         if (uri.matches(twoRegex(DEL))) return "del";
         if (uri.matches(twoRegex(EDIT))) return "update";
-        if (uri.matches(twoRegex(SEARCH))) return "find";
+        if (uri.matches(twoRegex(SEARCH))) return "search";
         if (uri.matches(twoRegex(QRCODE))) return "generateCode";
         if (uri.matches(twoRegex(CREATE))) return "create";
         if (uri.matches(twoRegex(REGISTER))) return "registered";
         if (uri.matches(twoRegex(LOGIN))) return "login";
-        if (uri.matches(twoRegex(FOND))) return "seek";
+        if (uri.matches(twoRegex(FIND))) return "find";
         return null;
     }
 
@@ -64,7 +66,4 @@ public class UriDistinguishUtils {
     public static String twoRegex(String str){
         return "(.+)"+str+"(.*)";
     }
-
-
-
 }

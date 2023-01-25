@@ -1,7 +1,5 @@
 package com.sans.interceptor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sans.constant.UserConstant;
 import com.sans.exception.BusinessException;
 import com.sans.model.entity.Users;
 import com.sans.model.enums.StateCode;
@@ -14,6 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.baomidou.mybatisplus.core.assist.ISqlRunner.COUNT;
+import static com.sans.constant.UserConstant.USER_LOGIN_STATE;
+import static com.sans.utils.UriDistinguishUtils.*;
+
 
 /**
  * 权限鉴定
@@ -21,10 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AuthInterceptor implements HandlerInterceptor {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     /**
-     * 登录 和 权限鉴定
+     * 登录
      * @param req
      * @param resp
      * @param handler
@@ -43,15 +43,9 @@ public class AuthInterceptor implements HandlerInterceptor {
                 return true;
             default:
         }
-        //String accessToken = req.getHeader("AccessToken");
-        //if (accessToken == null) throw new BusinessException(StateCode.NOT_LOGIN_ERROR);
 
-        //Object parse = JwtUtils.getObjectByToken(accessToken);
-
-        //Users user = objectMapper.convertValue(parse, Users.class);
-        //if (user == null) throw new BusinessException(StateCode.NO_AUTH_ERROR);
-        String id = req.getSession().getId();
-        Object attribute = req.getSession().getAttribute(UserConstant.USER_LOGIN_STATE);
+        // 用户
+        Object attribute = req.getSession().getAttribute(USER_LOGIN_STATE);
         if (attribute == null) throw new BusinessException(StateCode.NOT_LOGIN_ERROR);
         Users user = (Users) attribute;
 
@@ -65,17 +59,42 @@ public class AuthInterceptor implements HandlerInterceptor {
         LogMsgUtils.logMessage.put("typeName", typeName);
         LogMsgUtils.logMessage.put("operationName", operationName);
 
-        return true;
+        // 权限鉴定
+        // 0游客,1销售,2派送,3管理
+        Integer role = user.getUserRole();
+        switch (role) {
+            case 0:
+                if (uri.matches(FIND)) return true;
+                if (uri.matches(SEARCH)) return true;
+                if (uri.matches(LIST)) return true;
+                if (uri.matches(COUNT)) return true;
+                if (uri.matches(CURRENT)) return true;
+            case 1:
+            case 2:
+                if (uri.matches(FIND)) return true;
+                if (uri.matches(SEARCH)) return true;
+                if (uri.matches(LIST)) return true;
+                if (uri.matches(COUNT)) return true;
+                if (uri.matches(CURRENT)) return true;
+                if (uri.matches(EDIT)) return true;
+                if (uri.matches(ADD)) return true;
+                if (uri.matches(CREATE)) return true;
+            case 3:
+                return true;
+            default:
+        }
+        return false;
     }
 
     @Override
     public void postHandle(@NotNull HttpServletRequest req, @NotNull HttpServletResponse resp, @NotNull Object handler, ModelAndView modelAndView) throws Exception {
-        HandlerInterceptor.super.postHandle(req, resp, handler, modelAndView);
+
+
     }
 
     @Override
     public void afterCompletion(@NotNull HttpServletRequest req, @NotNull HttpServletResponse resp, @NotNull Object handler, Exception ex) throws Exception {
-        HandlerInterceptor.super.afterCompletion(req, resp, handler, ex);
+
     }
 
 }
