@@ -48,13 +48,13 @@ public class OrderController {
 
     @GetMapping("/count")
     public BaseResult orderCount() {
-        long count = orderService.count(new QueryWrapper<Order>().eq("order_status",0));
+        long count = orderService.count(new QueryWrapper<Order>().ne("order_status",0));
         return BaseResult.ok().putData("count", count);
     }
 
     @GetMapping("/withdrawal/count")
     public BaseResult orderWithdrawalCount() {
-        long count = orderService.count(new QueryWrapper<Order>().eq("order_status", 1));
+        long count = orderService.count(new QueryWrapper<Order>().eq("order_status", 0));
         return BaseResult.ok().putData("count", count);
     }
 

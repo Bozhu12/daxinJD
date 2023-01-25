@@ -107,12 +107,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return order;
     }
 
+    /**
+     * 订单提交
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Order createOrder(OrderAllInfoDTO orderAll) {
         // 订单详细集合
         List<Orderinfo> orderInfoList = orderAll.getOrderinfoList();
         Order order = new Order();
+        // 0未完成,1配送中,2完成
+        order.setOrderStatus(1);
         BeanUtils.copyProperties(orderAll, order);
         boolean orderSave = this.save(order);
         if (!orderSave) {
@@ -139,17 +144,20 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
-    public List<OrderUnitDTO> orderList(int pageNum, int pageSize , boolean isDel) {
+    public List<OrderUnitDTO> orderList(int pageNum, int pageSize, boolean isDel) {
         Page<Order> page = new Page<>(pageNum, pageSize);
-        Page<Order> orderPage = this.page(page);
+        QueryWrapper<Order> qw = new QueryWrapper<>();
+        // 0未完成,1配送中,2完成
+        if (isDel) {
+            qw.eq("order_status", 0);
+        } else {
+            qw.ne("order_status", 0);
+        }
+        Page<Order> orderPage = this.page(page, qw);
 
         // 集合提取数据
-        List<Order> records = orderPage.getRecords();
         List<OrderUnitDTO> list = new ArrayList<>();
-        // 内存处理
-        for (Order order : records) {
-            if (isDel && order.getOrderStatus() == 0) continue;
-            if (!isDel && order.getOrderStatus() == 1) continue;
+        for (Order order : orderPage.getRecords()) {
             OrderUnitDTO orderUnitDTO = orderMapper.orderInfoById(order.getId());
             list.add(orderUnitDTO);
         }
