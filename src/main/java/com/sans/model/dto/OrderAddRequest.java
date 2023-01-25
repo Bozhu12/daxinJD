@@ -30,6 +30,10 @@ public class OrderAddRequest {
      * 商品列表
      */
     private List<GoodsUnit> goodsList;
+    /**
+     * 支付方式 (0现金,1支付宝,2微信,3刷卡)
+     */
+    private Integer payType;
 
     /**
      * 单个商品

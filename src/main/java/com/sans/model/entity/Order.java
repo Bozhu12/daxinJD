@@ -58,6 +58,12 @@ public class Order implements Serializable {
     private Double orderExpectPrice;
 
     /**
+     *  支付方式(0现金,1支付宝,2微信,3刷卡)
+     */
+    @TableField(value = "pay_type")
+    private Integer payType;
+
+    /**
      *  订单备注
      */
     @TableField(value = "order_remark")
